@@ -1,0 +1,6 @@
+# 系統等待 Delay (OUTPUT)
+[DEVICE_CODE] "0"
+[PIN_ID] 必須是 "0"
+[格式] ["OUTPUT", "0", "0", 延時秒數, null, null]
+[說明] 讓程式暫停執行指定的秒數，支援小數點(例如 0.5 秒)。
+[範例] 暫停 1 秒: ["OUTPUT", "0", "0", 1, null, null]
