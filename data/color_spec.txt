@@ -1,0 +1,4 @@
+# COMPONENT: RGB Color Sensor (顏色感測器)
+[DEVICE_CODE] "57"[cite: 11]
+[PIN_ID] "0" to "4"[cite: 6]
+[STRICT_FORMAT] ["INPUT", "57", "<pin>", "=", "<hex_color_string>", [<actions_array>]][cite: 11]

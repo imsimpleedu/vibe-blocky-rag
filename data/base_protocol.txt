@@ -1,0 +1,21 @@
+# Vibe-Blocky Core Parser Specification (Verified for 2026 Router)
+[CRITICAL RULE]
+All autonomous logic must strictly follow the top-level container structure:
+{
+    "setupLoop": {
+        "setup": [],
+        "loop": []
+    }
+}
+* "setup": For configuration actions that run ONCE.
+* "loop": For repetitive evaluation. Continuous monitoring sensors (e.g., Temperature, Infrared, Light) MUST always be arranged inside the "loop" array[cite: 10, 11].
+[NESTING & ARRANGE LOGIC]
+When an INPUT sensor brick triggers an event, it does NOT execute code sequentially in the root array. Instead, all triggered output or variable blocks must be appended into the 6th slot (the ACTIONS nested array) of that INPUT block[cite: 5, 6, 11].
+# VARIABLE CONTROL BLOCKS (邏輯箱子控制)
+1. Set Variable: ["VAR", "0", "0", "SET", "<var_name>", "<value_string_or_num>"][cite: 6, 11]
+2. Add Variable: ["VAR", "0", "0", "ADD", "<var_name>", "<increment_value>"][cite: 6, 11]
+3. Call Variable / Read Payload: ["VAR", "0", "0", "STORE", "<var_name>", null][cite: 11]
+
+# CONDITIONAL HARDWARE "IF" CONTROL (多重邏輯判斷)
+Format: ["IF", <left_value>, "<operator>", <right_value>, [<actions_array>], null][cite: 6, 11]
+* left_value / right_value: Can be a static number, string, or a variable call block ["VAR", "0", "0", "STORE", "VarName", null][cite: 6, 11].

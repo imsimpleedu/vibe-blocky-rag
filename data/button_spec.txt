@@ -1,0 +1,4 @@
+# COMPONENT: Tactile Button Switch (按鈕開關)
+[DEVICE_CODE] "52"[cite: 7, 11]
+[PIN_ID] "0" to "4"[cite: 6, 7]
+[STRICT_FORMAT] ["INPUT", "52", "<pin>", "=", <1_or_0>, [<actions_array>]][cite: 6, 7, 11]

@@ -1,0 +1,5 @@
+# COMPONENT: Infrared Distance Sensor (距離傳感器)
+[DEVICE_CODE] "51"[cite: 5, 11]
+[PIN_ID] "0" to "4"[cite: 5, 6]
+[STRICT_FORMAT] ["INPUT", "51", "<pin>", "<operator>", <distance_cm>, [<actions_array>]][cite: 5, 6, 11]
+[OPERATORS] ">", ">=", "=", "<", "<="[cite: 5, 6, 11]

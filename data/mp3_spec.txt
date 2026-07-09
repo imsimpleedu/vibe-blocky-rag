@@ -1,0 +1,7 @@
+# COMPONENT: MP3 Audio Player (音樂播放器)
+[DEVICE_CODE] "2"
+[PIN_ID] "0" to "4"[cite: 6]
+[STRICT_FORMAT] ["OUTPUT", "2", "<pin>", <volume_0_100>, <music_track_number>, null]
+[PARAMETERS]
+* volume_0_100: Integer (e.g., 50)[cite: 11]
+* music_track_number: Integer (e.g., 1)[cite: 11]
