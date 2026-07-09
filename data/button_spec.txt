@@ -1,6 +1,0 @@
-# 按鈕開關 Button (INPUT)
-[DEVICE_CODE] "52"
-[PIN_ID] "0" 到 "4"
-[格式] ["INPUT", "52", PIN_ID, "=", 1, [ACTIONS]]
-[說明] 運算符固定為 "="，VALUE 固定為 1 (代表被按下)。
-[範例] 當P1按鈕被按下時執行: ["INPUT", "52", "1", "=", 1, [ACTIONS]]
