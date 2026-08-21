@@ -69,6 +69,11 @@
             "name": "顏色傳感器",
             "rag_file": "color_spec.txt",
             "description": "用於辨識物體的顏色（如紅色、綠色、藍色）、分類彩色物體或積木。關鍵字：顏色、紅色、綠色、藍色、辨識、看到什麼顏色。"
+        },
+        {
+            "name": "Temperature Sensor",
+            "rag_file": "temp_spec.txt",
+            "description": "測量環境溫度 (Celsius/Fahrenheit)。適用於檢測天氣太熱 (hot)、太冷 (cold)、開關風扇 (fan)、冷氣或暖氣等情境。"
         }
     ]
 }
