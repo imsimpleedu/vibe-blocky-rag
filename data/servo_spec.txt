@@ -1,5 +1,5 @@
 # COMPONENT: Servo Motor & Fan Control (馬達與風扇)
 [DEVICE_CODE] "3"
 [PIN_ID] "0" to "4"[cite: 6]
-[STRICT_FORMAT - ANGLE MODE] ["OUTPUT", "3", "<pin>", "angle", <angle_0_360>, null]
-[STRICT_FORMAT - ROTATION MODE] ["OUTPUT", "3", "<pin>", "rotation", <speed_0_100>, null]
+[STRICT_FORMAT - ANGLE MODE] ["OUTPUT", "3", "<pin>", "angle", <angle_0_360>, "N/A"]
+[STRICT_FORMAT - ROTATION MODE] ["OUTPUT", "3", "<pin>", "rotation", <speed_0_100>, "N/A"]
