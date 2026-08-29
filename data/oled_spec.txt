@@ -1,7 +1,7 @@
 # COMPONENT: OLED Text Display Screen (OLED 顯示器)
 [DEVICE_CODE] "4"
 [PIN_ID] "0" to "4"
-[STRICT_FORMAT] ["OUTPUT", "4", "<pin>", "<mode_0_1_2>", <content_payload>, "N/A"]
+[STRICT_FORMAT] ["OUTPUT", "4", "<pin>", "<mode_0_1_2>", <content_payload>, "N/A", "N/A"]
 [PARAMETERS]
-* mode_0_1_2: "0" (Clear Screen), "1" (No Newline), "2" (New Line)[cite: 11]
-* content_payload: Can be a static String (e.g., "Hello!") or a Variable Store Block[cite: 11]
+* mode_0_1_2: "0" (Clear Screen), "1" (No Newline), "2" (New Line)
+* content_payload: Can be a static String (e.g., "Hello!") or a Variable Store Block
