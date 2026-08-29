@@ -1,9 +1,31 @@
-# COMPONENT: LED Light Strip (單色/彩色/彩虹走馬燈)
-[DEVICE_CODE] "1"
-[PIN_ID] "0" to "4"
-[STRICT_FORMAT - COLOR MODE] ["OUTPUT", "1", "<pin>", <start_led>, <end_led>, "<hex_color>", "N/A"]
-[STRICT_FORMAT - RAINBOW MODE] ["OUTPUT", "1", "<pin>", <start_led>, <end_led>, "rainbow", "N/A"]
-[PARAMETERS] 
-* start_led: Integer (e.g., 1)
-* end_led: Integer (e.g., 30)
-* hex_color: String format (e.g., "#ff0000", "#00ff00")
+# ==========================================
+# HARDWARE SPEC: RGB LED STRIP (02_output_led.txt)
+# 硬體規格檔：WS2812B RGB LED 燈條
+# ==========================================
+
+[DEVICE ATTRIBUTES / 設備屬性]
+- Type: OUTPUT
+- Default Pin Code: "1"
+- Max LEDs: 30
+
+[BLOCK SCHEMA / 陣列結構 (Strict 7 Elements)]
+["OUTPUT", "1", "<pin_code>", <start_led:number>, <end_led:number>, "<hex_color>", "N/A"]
+
+[PARAMETER RULES / 參數規範]
+- Position 0: "OUTPUT" (Fixed String)
+- Position 1: "1" (Device Class ID for LED Strip)
+- Position 2: Pin Code (Default "1")
+- Position 3: Start LED Index (1 to 30)
+- Position 4: End LED Index (1 to 30)
+- Position 5: Hex Color String (e.g., ON: "#ffffff", OFF: "#000000", RED: "#ff0000")
+- Position 6: Default "N/A" (Required for 7-element array)
+
+[EXAMPLES / 積木範例]
+1. Turn ON LED 1 to 30 with White Light (全亮白燈):
+   ["OUTPUT", "1", "1", 1, 30, "#ffffff", "N/A"]
+
+2. Turn OFF ALL LEDs (全關燈):
+   ["OUTPUT", "1", "1", 1, 30, "#000000", "N/A"]
+
+3. Set LED 1 to 10 to Red Light (前10顆亮紅燈):
+   ["OUTPUT", "1", "1", 1, 10, "#ff0000", "N/A"]
