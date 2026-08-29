@@ -1,4 +1,4 @@
 # COMPONENT: Tilt Acceleration Sensor (傾斜傳感器)
-[DEVICE_CODE] "54"[cite: 11]
-[PIN_ID] "0" to "4"[cite: 6]
-[STRICT_FORMAT] ["INPUT", "54", "<pin>", "=", <1_or_0>, [<actions_array>]][cite: 11]
+[DEVICE_CODE] "54"
+[PIN_ID] "0" to "4"
+[STRICT_FORMAT] ["INPUT", "54", "<pin>", "=", <1_or_0>, [<actions_array>], "N/A"]
