@@ -1,5 +1,25 @@
-# COMPONENT: Infrared Distance Sensor (距離傳感器)
-[DEVICE_CODE] "51"
-[PIN_ID] "0" to "4"
-[STRICT_FORMAT] ["INPUT", "51", "<pin>", "<operator>", <distance_cm>, [<actions_array>], "N/A"]
-[OPERATORS] ">", ">=", "=", "<", "<="
+# ==========================================
+# HARDWARE SPEC: INFRARED DISTANCE SENSOR (distance_spec.txt)
+# 硬體規格檔：紅外線 / 超聲波距離傳感器
+# ==========================================
+
+[DEVICE ATTRIBUTES / 設備屬性]
+- Type: INPUT
+- Device Code: "51"
+- Default Pin Code: "0" to "4"
+
+[BLOCK SCHEMA / 陣列結構 (Strict 7 Elements)]
+["INPUT", "51", "<pin>", "<operator>", <distance_cm:number>, [<actions_array>], "N/A"]
+
+[PARAMETER RULES / 參數規範]
+- Position 0: "INPUT" (Fixed String)
+- Position 1: "51" (Device Code for Distance Sensor)
+- Position 2: Pin Code ("0" to "4")
+- Position 3: Operator (">", ">=", "=", "<", "<=")
+- Position 4: Distance Threshold in cm (Integer, e.g., 10, 50)
+- Position 5: Actions Array (Nested list of hardware blocks to execute)
+- Position 6: Default "N/A" (Required for 7-element array)
+
+[EXAMPLES / 積木範例]
+1. If distance on P2 is less than 10cm, turn LED Red (當 P2 距離小於 10cm 時亮紅燈):
+   ["INPUT", "51", "2", "<", 10, [["OUTPUT", "1", "1", 1, 30, "#ff0000", "N/A"]], "N/A"]
