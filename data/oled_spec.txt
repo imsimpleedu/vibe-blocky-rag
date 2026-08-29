@@ -1,7 +1,31 @@
-# COMPONENT: OLED Text Display Screen (OLED 顯示器)
-[DEVICE_CODE] "4"
-[PIN_ID] "0" to "4"
-[STRICT_FORMAT] ["OUTPUT", "4", "<pin>", "<mode_0_1_2>", <content_payload>, "N/A", "N/A"]
-[PARAMETERS]
-* mode_0_1_2: "0" (Clear Screen), "1" (No Newline), "2" (New Line)
-* content_payload: Can be a static String (e.g., "Hello!") or a Variable Store Block
+# ==========================================
+# HARDWARE SPEC: OLED TEXT DISPLAY SCREEN (oled_spec.txt)
+# 硬體規格檔：OLED 螢幕顯示器
+# ==========================================
+
+[DEVICE ATTRIBUTES / 設備屬性]
+- Type: OUTPUT
+- Device Code: "4"
+- Default Pin Code: "0" to "4" (Default "4")
+
+[BLOCK SCHEMA / 陣列結構 (Strict 7 Elements)]
+["OUTPUT", "4", "<pin>", "<mode_0_1_2>", <content_payload>, "N/A", "N/A"]
+
+[PARAMETER RULES / 參數規範]
+- Position 0: "OUTPUT" (Fixed String)
+- Position 1: "4" (Device Code for OLED Display)
+- Position 2: Pin Code (Default "4")
+- Position 3: Display Mode:
+  - "0": Clear Screen (清空螢幕)
+  - "1": Print Text / No Newline (不換行顯示)
+  - "2": Print Text / New Line (換行顯示)
+- Position 4: Content Payload (String e.g. "Hello!" or Variable Store Block)
+- Position 5: Default "N/A"
+- Position 6: Default "N/A" (Required for 7-element array)
+
+[EXAMPLES / 積木範例]
+1. Clear OLED Screen on P4 (清空 P4 螢幕):
+   ["OUTPUT", "4", "4", "0", "N/A", "N/A", "N/A"]
+
+2. Print "Hello!" with a new line on P4 (在 P4 顯示 "Hello!" 並換行):
+   ["OUTPUT", "4", "4", "2", "Hello!", "N/A", "N/A"]
