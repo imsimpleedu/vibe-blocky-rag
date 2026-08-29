@@ -1,4 +1,28 @@
-# COMPONENT: Tactile Button Switch (按鈕開關)
-[DEVICE_CODE] "52"
-[PIN_ID] "0" to "4"
-[STRICT_FORMAT] ["INPUT", "52", "<pin>", "=", <1_or_0>, [<actions_array>], "N/A"]
+# ==========================================
+# HARDWARE SPEC: TACTILE BUTTON SWITCH (button_spec.txt)
+# 硬體規格檔：按鈕開關
+# ==========================================
+
+[DEVICE ATTRIBUTES / 設備屬性]
+- Type: INPUT
+- Device Code: "52"
+- Default Pin Code: "0" to "4"
+
+[BLOCK SCHEMA / 陣列結構 (Strict 7 Elements)]
+["INPUT", "52", "<pin>", "=", <1_or_0>, [<actions_array>], "N/A"]
+
+[PARAMETER RULES / 參數規範]
+- Position 0: "INPUT" (Fixed String)
+- Position 1: "52" (Device Code for Tactile Button)
+- Position 2: Pin Code ("0" to "4")
+- Position 3: Operator (Fixed "=")
+- Position 4: Trigger State (1 = Pressed / 按下, 0 = Released / 放開)
+- Position 5: Actions Array (Nested list of hardware blocks to execute when triggered)
+- Position 6: Default "N/A" (Required for 7-element array)
+
+[EXAMPLES / 積木範例]
+1. When Button on P2 is Pressed (1), turn ON LED (按下 P2 按鈕亮燈):
+   ["INPUT", "52", "2", "=", 1, [["OUTPUT", "1", "1", 1, 30, "#ffffff", "N/A"]], "N/A"]
+
+2. When Button on P2 is Released (0), turn OFF LED (放開 P2 按鈕關燈):
+   ["INPUT", "52", "2", "=", 0, [["OUTPUT", "1", "1", 1, 30, "#000000", "N/A"]], "N/A"]
