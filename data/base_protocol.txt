@@ -1,21 +1,130 @@
 # Vibe-Blocky Core Parser Specification (Verified for 2026 Router)
+
 [CRITICAL RULE]
-All autonomous logic must strictly follow the top-level container structure:
+所有自主邏輯必須嚴格遵循頂層容器結構：
 {
     "setupLoop": {
         "setup": [],
         "loop": []
     }
 }
-* "setup": For configuration actions that run ONCE.
-* "loop": For repetitive evaluation. Continuous monitoring sensors (e.g., Temperature, Infrared, Light) MUST always be arranged inside the "loop" array.
-[NESTING & ARRANGE LOGIC]
-When an INPUT sensor brick triggers an event, it does NOT execute code sequentially in the root array. Instead, all triggered output or variable blocks must be appended into the 6th slot (the ACTIONS nested array) of that INPUT block.
-# VARIABLE CONTROL BLOCKS (邏輯箱子控制)
-1. Set Variable: ["VAR", "0", "0", "SET", "<var_name>", "<value_string_or_num>", "N/A"]
-2. Add Variable: ["VAR", "0", "0", "ADD", "<var_name>", "<increment_value>", "N/A"]
-3. Call Variable / Read Payload: ["VAR", "0", "0", "STORE", "<var_name>", "N/A", "N/A"]
+* "setup": 用於執行一次的配置動作（例如初始化設定）。
+* "loop": 用於重複評估。持續監測的感測器（例如溫度、紅外線、光線）必須放置於 "loop" 陣列內。
 
-# CONDITIONAL HARDWARE "IF" CONTROL (多重邏輯判斷)
-Format: ["IF", <left_value>, "<operator>", <right_value>, [<actions_array>], "N/A", "N/A"]
-* left_value / right_value: Can be a static number, string, or a variable call block ["VAR", "0", "0", "STORE", "VarName", "N/A", "N/A"]
+[NESTING & ARRANGE LOGIC]
+當輸入感測器（INPUT）觸發事件時，其子動作不會直接放在根陣列中。所有被觸發的輸出或變數積木，必須嵌套附加至該 INPUT 陣列的第 6 個位置（即 ACTIONS 動作 nested 陣列）中。
+
+# 數據結構格式標準 (DATA STRUCTURE SPECIFICATIONS)
+
+## 1. 變數控制積木 (VARIABLE CONTROL BLOCKS)
+* 設定變數：["VAR", "0", "0", "SET", "<var_name>", <value_string_or_num>, "N/A"]
+* 累加變數：["VAR", "0", "0", "ADD", "<var_name>", <increment_value>, "N/A"]
+* 讀取變數：["VAR", "0", "0", "STORE", "<var_name>", "N/A", "N/A"]
+* 直接讀取感測器硬體變數：["VAR", "<i2c_addr>", "<pin_code>", "STORE", "<var_name>", "N/A", "N/A"]
+
+## 2. 邏輯判斷積木 (CONDITIONAL "IF" CONTROL)
+格式：["IF", <left_value>, "<operator>", <right_value>, [<actions_array>], "N/A", "N/A"]
+* <operator> 可為：">", ">=", "=", "<", "<=", "!="
+* left_value / right_value 可為數值、字串，或讀取變數區塊 ["VAR", "0", "0", "STORE", "VarName", "N/A", "N/A"]
+
+## 3. 硬體輸入積木 (INPUT SENSOR BLOCKS)
+格式：["INPUT", "<type_code>", "<pin_code>", "<operator>", <value>, [<actions_array>], "N/A"]
+
+| 感測器種類 | Type Code | Operator (<operator>) | Value 預設與數據格式 (<value>) |
+| :--- | :--- | :--- | :--- |
+| 距離感測器 (IR) | "51" | ">", ">=", "=", "<", "<=" | 數值 (厘米, 預設 1) |
+| 按鈕 (Button) | "52" | "=" | 1 (按下) / 0 (鬆開) |
+| 溫度感測器 (Temp) | "53" | ">", ">=", "=", "<", "<=" | 數值 (攝氏度, 預設 25) |
+| 傾斜感測器 (Accel) | "54" | "=" | 1 (傾斜) / 0 (未傾斜) |
+| 讀卡感測器 (RFID) | "55" | "=" | 字串 (卡片編號) |
+| 光線感測器 (Light) | "56" | ">", ">=", "=", "<", "<=" | 數值 (燭光, 預設 25) |
+| 顏色感測器 (Color) | "57" | "=" | Hex 色碼 (例如 "#ff0000") |
+
+## 4. 硬體輸出積木 (OUTPUT ACTUATOR BLOCKS)
+* 延遲等待：["OUTPUT", "0", "0", "DELAY", <seconds>, "N/A", "N/A"]
+* 單色 LED 燈：["OUTPUT", "1", "<pin_code>", <start_led>, <end_led>, "<hex_color>", "N/A"]
+* 彩虹 LED 燈：["OUTPUT", "1", "<pin_code>", <start_led>, <end_led>, "rainbow", "N/A"]
+* MP3 播放器：["OUTPUT", "2", "<pin_code>", <volume>, <track_num>, "N/A", "N/A"]
+* 伺服馬達 (角度)：["OUTPUT", "3", "<pin_code>", "angle", <angle_value>, "N/A", "N/A"]
+* 伺服馬達 (連續旋轉)：["OUTPUT", "3", "<pin_code>", "rotation", <speed_value>, "N/A", "N/A"]
+* OLED 螢幕顯示：["OUTPUT", "4", "<pin_code>", "<mode>", <text_or_var>, "N/A", "N/A"]
+  * mode 模式說明："2" (開新行)、"1" (不開新行)、"0" (清除畫面內容)
+
+---
+
+# JSON 完整代碼範例 (JSON CODE EXAMPLES)
+
+### 範例一：按鈕觸發多重輸出 (Button Triggering MP3 & Rainbow LED)
+當按鈕 (P0) 被按下時，播放 MP3 第 1 首歌曲（音量 50），並將 LED (P1) 第 1 至 30 顆設定為彩虹色彩。
+
+```json
+{
+    "setupLoop": {
+        "setup": [],
+        "loop": [
+            [
+                "INPUT", "52", "0", "=", 1,
+                [
+                    ["OUTPUT", "2", "0", 50, 1, "N/A", "N/A"],
+                    ["OUTPUT", "1", "1", 1, 30, "rainbow", "N/A"]
+                ],
+                "N/A"
+            ]
+        ]
+    }
+}
+
+### 範例二：感測器監控、變數計數與 IF 條件判斷 (Temperature Monitor, Variable & IF)
+初始化設定變數 "TempWarning" 為 0。在主循環中，若溫度感測器 (P2) 攝氏度 >= 30，則變數 "TempWarning" 加 1。當 "TempWarning" 大於 5 時，OLED (P0) 顯示警告、LED (P1) 亮紅燈並播放警告音樂。
+
+```json
+{
+    "setupLoop": {
+        "setup": [
+            ["VAR", "0", "0", "SET", "TempWarning", 0, "N/A"]
+        ],
+        "loop": [
+            [
+                "INPUT", "53", "2", ">=", 30,
+                [
+                    ["VAR", "0", "0", "ADD", "TempWarning", 1, "N/A"]
+                ],
+                "N/A"
+            ],
+            [
+                "IF", 
+                ["VAR", "0", "0", "STORE", "TempWarning", "N/A", "N/A"], 
+                ">", 
+                5,
+                [
+                    ["OUTPUT", "4", "0", "2", "Temperature Too High!", "N/A", "N/A"],
+                    ["OUTPUT", "1", "1", 1, 10, "#ff0000", "N/A"],
+                    ["OUTPUT", "2", "3", 80, 2, "N/A", "N/A"]
+                ],
+                "N/A", 
+                "N/A"
+            ]
+        ]
+    }
+}
+
+### 範例三：顏色感測器控制伺服馬達 (Color Sensor Driving Servo)
+當顏色感測器 (P4) 偵測到紅色 (#ff0000) 時，將伺服馬達 (P3) 轉動至 180 度，延遲 2 秒後復位至 0 度
+
+```json
+{
+    "setupLoop": {
+        "setup": [],
+        "loop": [
+            [
+                "INPUT", "57", "4", "=", "#ff0000",
+                [
+                    ["OUTPUT", "3", "3", "angle", 180, "N/A", "N/A"],
+                    ["OUTPUT", "0", "0", "DELAY", 2, "N/A", "N/A"],
+                    ["OUTPUT", "3", "3", "angle", 0, "N/A", "N/A"]
+                ],
+                "N/A"
+            ]
+        ]
+    }
+}
