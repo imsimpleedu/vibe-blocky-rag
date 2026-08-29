@@ -1,4 +1,25 @@
-# COMPONENT: Ambient Light Photoresistor (光線感測器)
-[DEVICE_CODE] "56"
-[PIN_ID] "0" to "4"
-[STRICT_FORMAT] ["INPUT", "56", "<pin>", "<operator>", <lux_intensity_0_100>, [<actions_array>], "N/A"]
+# ==========================================
+# HARDWARE SPEC: AMBIENT LIGHT PHOTORESICTOR (light_spec.txt)
+# 硬體規格檔：環境光線感測器
+# ==========================================
+
+[DEVICE ATTRIBUTES / 設備屬性]
+- Type: INPUT
+- Device Code: "56"
+- Default Pin Code: "0" to "4"
+
+[BLOCK SCHEMA / 陣列結構 (Strict 7 Elements)]
+["INPUT", "56", "<pin>", "<operator>", <lux_intensity_0_100:number>, [<actions_array>], "N/A"]
+
+[PARAMETER RULES / 參數規範]
+- Position 0: "INPUT" (Fixed String)
+- Position 1: "56" (Device Code for Light Sensor)
+- Position 2: Pin Code ("0" to "4")
+- Position 3: Operator (">", ">=", "=", "<", "<=")
+- Position 4: Light Intensity Value (0 to 100)
+- Position 5: Actions Array (Nested list of hardware blocks to execute)
+- Position 6: Default "N/A" (Required for 7-element array)
+
+[EXAMPLES / 積木範例]
+1. If light intensity on P2 is less than 20 (Dark), turn ON LED (當環境變暗 < 20 時開燈):
+   ["INPUT", "56", "2", "<", 20, [["OUTPUT", "1", "1", 1, 30, "#ffffff", "N/A"]], "N/A"]
