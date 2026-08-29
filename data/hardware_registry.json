@@ -15,14 +15,19 @@
     "rag_file": "button_spec.txt"
   },
   {
-    "name": "Distance Sensor / 超聲波測距感測器",
-    "description": "測量距離 (Ultrasonic Distance Sensor)",
+    "name": "Distance Sensor / 距離感測器",
+    "description": "測量距離 (Distance Sensor, Ultrasonic, Infrared)",
     "rag_file": "distance_spec.txt"
   },
   {
-    "name": "Light Sensor / 光敏感測器",
-    "description": "檢測環境光線強度 (Light Sensor)",
+    "name": "Light Sensor / 光線感測器",
+    "description": "檢測環境光線強度 (Light Sensor, Photoresistor)",
     "rag_file": "light_spec.txt"
+  },
+  {
+    "name": "Color Sensor / 顏色感測器",
+    "description": "檢測顏色 (RGB Color Sensor, Detect Red/Green/Blue)",
+    "rag_file": "color_spec.txt"
   },
   {
     "name": "MP3 Player / 音效播放器",
@@ -35,8 +40,18 @@
     "rag_file": "oled_spec.txt"
   },
   {
-    "name": "Servo Motor / 伺服馬達",
-    "description": "控制旋轉角度 (Servo Motor Angle)",
+    "name": "RFID Reader / 讀卡感測器",
+    "description": "讀取 RFID 卡片 (RFID Card Reader, Scan Card)",
+    "rag_file": "rfid_spec.txt"
+  },
+  {
+    "name": "Servo Motor / 伺服馬達與風扇",
+    "description": "控制旋轉角度與風扇轉速 (Servo Motor Angle, Fan Speed)",
     "rag_file": "servo_spec.txt"
+  },
+  {
+    "name": "Temperature Sensor / 溫度感測器",
+    "description": "檢測環境溫度 (Ambient Temperature Sensor, Celsius)",
+    "rag_file": "temp_spec.txt"
   }
 ]
