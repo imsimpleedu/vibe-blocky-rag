@@ -1,6 +1,6 @@
 # COMPONENT: Built-in System Delay (等待延時)
 [DEVICE_CODE] "0"
 [PIN_ID] "0"
-[STRICT_FORMAT] ["OUTPUT", "0", "0", "DELAY", <number_seconds>, "N/A"]
+[STRICT_FORMAT] ["OUTPUT", "0", "0", "DELAY", <number_seconds>, "N/A", "N/A"]
 [EXPLANATION] Suspends execution of the thread. Supports floating numbers (e.g., 0.5).
 [LOGIC RATIONALE] Use this to prevent hardware from flapping or to create blinking effects.
