@@ -1,4 +1,4 @@
 # COMPONENT: RFID Card Reader (讀卡感測器)
-[DEVICE_CODE] "55"[cite: 11]
-[PIN_ID] "0" to "4"[cite: 6]
-[STRICT_FORMAT] ["INPUT", "55", "<pin>", "=", "<card_id_string>", [<actions_array>]][cite: 11]
+[DEVICE_CODE] "55"
+[PIN_ID] "0" to "4"
+[STRICT_FORMAT] ["INPUT", "55", "<pin>", "=", "<card_id_string>", [<actions_array>], "N/A"]
