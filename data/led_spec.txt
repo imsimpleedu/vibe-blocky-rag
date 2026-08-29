@@ -1,8 +1,8 @@
 # COMPONENT: LED Light Strip (單色/彩色/彩虹走馬燈)
 [DEVICE_CODE] "1"
-[PIN_ID] "0" to "4"[cite: 6]
-[STRICT_FORMAT - COLOR MODE] ["OUTPUT", "1", "<pin>", <start_led>, <end_led>, "<hex_color>"]
-[STRICT_FORMAT - RAINBOW MODE] ["OUTPUT", "1", "<pin>", <start_led>, <end_led>, "rainbow"]
+[PIN_ID] "0" to "4"
+[STRICT_FORMAT - COLOR MODE] ["OUTPUT", "1", "<pin>", <start_led>, <end_led>, "<hex_color>", "N/A"]
+[STRICT_FORMAT - RAINBOW MODE] ["OUTPUT", "1", "<pin>", <start_led>, <end_led>, "rainbow", "N/A"]
 [PARAMETERS] 
 * start_led: Integer (e.g., 1)
 * end_led: Integer (e.g., 30)
