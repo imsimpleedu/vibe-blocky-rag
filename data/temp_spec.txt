@@ -1,4 +1,4 @@
 # COMPONENT: Ambient Temperature Sensor (溫度傳感器)
-[DEVICE_CODE] "53"[cite: 11]
-[PIN_ID] "0" to "4"[cite: 6]
-[STRICT_FORMAT] ["INPUT", "53", "<pin>", "<operator>", <celcius_value>, [<actions_array>]][cite: 6, 11]
+[DEVICE_CODE] "53"
+[PIN_ID] "0" to "4"
+[STRICT_FORMAT] ["INPUT", "53", "<pin>", "<operator>", <celcius_value>, [<actions_array>], "N/A"]
