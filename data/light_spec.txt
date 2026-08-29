@@ -1,4 +1,4 @@
 # COMPONENT: Ambient Light Photoresistor (光線感測器)
-[DEVICE_CODE] "56"[cite: 11]
-[PIN_ID] "0" to "4"[cite: 6]
-[STRICT_FORMAT] ["INPUT", "56", "<pin>", "<operator>", <lux_intensity_0_100>, [<actions_array>]][cite: 6, 11]
+[DEVICE_CODE] "56"
+[PIN_ID] "0" to "4"
+[STRICT_FORMAT] ["INPUT", "56", "<pin>", "<operator>", <lux_intensity_0_100>, [<actions_array>], "N/A"]
