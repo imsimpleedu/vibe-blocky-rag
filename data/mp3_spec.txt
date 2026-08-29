@@ -1,7 +1,25 @@
-# COMPONENT: MP3 Audio Player (音樂播放器)
-[DEVICE_CODE] "2"
-[PIN_ID] "0" to "4"
-[STRICT_FORMAT] ["OUTPUT", "2", "<pin>", <volume_0_100>, <music_track_number>, "N/A", "N/A"]
-[PARAMETERS]
-* volume_0_100: Integer (e.g., 50)
-* music_track_number: Integer (e.g., 1)
+# ==========================================
+# HARDWARE SPEC: MP3 AUDIO PLAYER (mp3_spec.txt)
+# 硬體規格檔：MP3 音響與音效模組
+# ==========================================
+
+[DEVICE ATTRIBUTES / 設備屬性]
+- Type: OUTPUT
+- Device Code: "2"
+- Default Pin Code: "0" to "4" (Default "3")
+
+[BLOCK SCHEMA / 陣列結構 (Strict 7 Elements)]
+["OUTPUT", "2", "<pin>", <volume_0_100:number>, <music_track_number:number>, "N/A", "N/A"]
+
+[PARAMETER RULES / 參數規範]
+- Position 0: "OUTPUT" (Fixed String)
+- Position 1: "2" (Device Code for MP3 Player)
+- Position 2: Pin Code (Default "3")
+- Position 3: Volume level (0 to 100)
+- Position 4: Music Track Index / Song Number (Integer, e.g., 1, 2, 3)
+- Position 5: Default "N/A"
+- Position 6: Default "N/A" (Required for 7-element array)
+
+[EXAMPLES / 積木範例]
+1. Play Track 1 at 80% Volume on P3 (在 P3 腳位以 80% 音量播放第 1 首曲目):
+   ["OUTPUT", "2", "3", 80, 1, "N/A", "N/A"]
