@@ -1,4 +1,25 @@
-# COMPONENT: RGB Color Sensor (顏色感測器)
-[DEVICE_CODE] "57"
-[PIN_ID] "0" to "4"
-[STRICT_FORMAT] ["INPUT", "57", "<pin>", "=", "<hex_color_string>", [<actions_array>], "N/A"]
+# ==========================================
+# HARDWARE SPEC: RGB COLOR SENSOR (color_spec.txt)
+# 硬體規格檔：RGB 顏色感測器
+# ==========================================
+
+[DEVICE ATTRIBUTES / 設備屬性]
+- Type: INPUT
+- Device Code: "57"
+- Default Pin Code: "0" to "4"
+
+[BLOCK SCHEMA / 陣列結構 (Strict 7 Elements)]
+["INPUT", "57", "<pin>", "=", "<hex_color_string>", [<actions_array>], "N/A"]
+
+[PARAMETER RULES / 參數規範]
+- Position 0: "INPUT" (Fixed String)
+- Position 1: "57" (Device Code for Color Sensor)
+- Position 2: Pin Code ("0" to "4")
+- Position 3: Operator (Fixed "=")
+- Position 4: Hex Color String (e.g., Red: "#ff0000", Green: "#00ff00", Blue: "#0000ff")
+- Position 5: Actions Array (Nested list of hardware blocks to execute)
+- Position 6: Default "N/A" (Required for 7-element array)
+
+[EXAMPLES / 積木範例]
+1. When Red Color is detected on P2, play MP3 Track 1 (當 P2 感測到紅色時播放 Track 1):
+   ["INPUT", "57", "2", "=", "#ff0000", [["OUTPUT", "2", "3", 80, 1, "N/A", "N/A"]], "N/A"]
