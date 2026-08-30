@@ -1,7 +1,7 @@
-# ==========================================
-# VIBE BLOCKY HARDWARE PROTOCOL SPECIFICATION (v2.0)
+# ===============================================================================
+# VIBE BLOCKY HARDWARE PROTOCOL SPECIFICATION (v2.2)
 # 全局硬體通訊協議與積木語法規範
-# ==========================================
+# ===============================================================================
 
 [STRICT ARRAY RULE / 嚴格陣列長度鐵律]
 1. ALL hardware blocks MUST contain EXACTLY 7 elements in the JSON array (Index 0 to 6).
@@ -9,63 +9,72 @@
 2. Unused or optional parameters MUST be populated with default values: "N/A", "0", or [].
    未使用的參數【必須】填入預設值："N/A"、"0" 或空陣列 []。
 
---------------------------------------------
-[DEFAULT PIN MAPPING / 預設腳位對照表]
---------------------------------------------
-- P1 (Pin Code "1")
-- P2 (Pin Code "2")
-- P3 (Pin Code "3")
-- P4 (Pin Code "4")
-
---------------------------------------------
+-------------------------------------------------------------------------------
 [BLOCK SCHEMA DEFINITIONS / 積木結構定義]
---------------------------------------------
+-------------------------------------------------------------------------------
 
 1. DELAY BLOCK (延遲積木)
    Schema: ["OUTPUT", "0", "0", "DELAY", <seconds:number>, "N/A", "N/A"]
-   Example (Wait 2s): ["OUTPUT", "0", "0", "DELAY", 2, "N/A", "N/A"]
 
-2. VARIABLE SET BLOCK (設定變數)
-   Schema: ["VAR", "0", "0", "SET", "<var_name>", <value:number>, "N/A"]
-   Example (Set TempWarning = 0): ["VAR", "0", "0", "SET", "TempWarning", 0, "N/A"]
+2. INPUT EVENT BLOCK (感測器觸發積木)
+   Schema: ["INPUT", "<pin>", "<mode>", "<operator>", <value>, [<action_blocks>], "N/A"]
+   Operators: ">", "<", ">=", "<=", "==", "!="
 
-3. VARIABLE MODIFY BLOCK (變數加減)
-   Schema: ["VAR", "0", "0", "ADD", "<var_name>", <step:number>, "N/A"]
-   Example (TempWarning + 1): ["VAR", "0", "0", "ADD", "TempWarning", 1, "N/A"]
-
-4. VARIABLE READ BLOCK (讀取變數值)
-   Schema: ["VAR", "0", "0", "STORE", "<var_name>", "N/A", "N/A"]
-   Example (Get TempWarning value): ["VAR", "0", "0", "STORE", "TempWarning", "N/A", "N/A"]
-
-5. IF LOGIC BLOCK (條件判斷積木)
+3. IF LOGIC BLOCK (條件判斷積木 - 僅限變數)
    Schema: ["IF", <left_operand>, "<operator>", <right_operand>, [<action_blocks>], "N/A", "N/A"]
-   Operators: ">", "<", ">=", "<=", "=="
-   Example:
-   [
-     "IF",
-     ["VAR", "0", "0", "STORE", "TempWarning", "N/A", "N/A"],
-     ">",
-     5,
-     [
-       ["OUTPUT", "0", "0", "DELAY", 1, "N/A", "N/A"]
-     ],
-     "N/A",
-     "N/A"
-   ]
 
---------------------------------------------
-[FEW-SHOT CANONICAL JSON EXAMPLE / 標準 JSON 生成範例]
---------------------------------------------
-User Requirement: "Flash LED for 1 second, turn off for 2 seconds continuously" (亮燈1秒，關燈2秒，不斷重複)
+-------------------------------------------------------------------------------
+[LOGIC CONSTRUCTION RULES / 邏輯構建法則]
+-------------------------------------------------------------------------------
 
-JSON Output:
+1. DUAL-INPUT IF-ELSE PATTERN (雙重 INPUT 條件判斷)
+   When query includes "if condition X, do A, else do B":
+   - Generate TWO complementary INPUT blocks directly inside loop[].
+   - Block 1 (Positive): Matching condition -> Action A nested in Position 5.
+   - Block 2 (Negative): Inverse condition -> Action B nested in Position 5.
+   CRITICAL: NEVER put an un-nested OUTPUT at the root of loop[] as an "else" fallback.
+   CRITICAL: NEVER wrap an INPUT block inside an IF block.
+
+2. EVENT-DRIVEN ACTION SCOPING (動作作用域)
+   Triggered actions MUST strictly reside in Position 5 (action array) of the INPUT block.
+   DO NOT place raw OUTPUT blocks before or after an INPUT block at the loop[] root level.
+
+3. TIMED SEQUENTIAL EXECUTION (時序延遲控制)
+   For multi-step actions (e.g. "Move to 150 deg for 4s, then 0 deg for 2s"):
+   - Place movements sequentially in setup[] (run once) or loop[] (repeat).
+   - EACH movement action MUST be directly followed by a DELAY block.
+
+-------------------------------------------------------------------------------
+[FEW-SHOT CANONICAL JSON EXAMPLES / 標準 JSON 生成範例]
+-------------------------------------------------------------------------------
+
+Example 1: Check card match, if matched open red LED, if not close LED (RFID 比對：匹配開紅燈，不符關燈)
 {
   "setupLoop": {
     "setup": [],
     "loop": [
-      ["OUTPUT", "1", "1", 1, 30, "#ffffff", "N/A"],
-      ["OUTPUT", "0", "0", "DELAY", 1, "N/A", "N/A"],
-      ["OUTPUT", "1", "1", 1, 30, "#000000", "N/A"],
+      [
+        "INPUT", "57", "0", "==", "MATCH",
+        [["OUTPUT", "1", "1", 1, 30, "#ff0000", "N/A"]],
+        "N/A"
+      ],
+      [
+        "INPUT", "57", "0", "!=", "MATCH",
+        [["OUTPUT", "1", "1", 1, 30, "#000000", "N/A"]],
+        "N/A"
+      ]
+    ]
+  }
+}
+
+Example 2: Motor to 150 deg for 4s, then 0 deg for 2s (馬達轉 150 度維持 4 秒，再轉 0 度維持 2 秒)
+{
+  "setupLoop": {
+    "setup": [],
+    "loop": [
+      ["OUTPUT", "3", "1", "angle", 150, "N/A", "N/A"],
+      ["OUTPUT", "0", "0", "DELAY", 4, "N/A", "N/A"],
+      ["OUTPUT", "3", "1", "angle", 0, "N/A", "N/A"],
       ["OUTPUT", "0", "0", "DELAY", 2, "N/A", "N/A"]
     ]
   }
