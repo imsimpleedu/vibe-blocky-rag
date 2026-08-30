@@ -79,3 +79,16 @@ Example 2: Motor to 150 deg for 4s, then 0 deg for 2s (馬達轉 150 度維持 4
     ]
   }
 }
+
+Example 3: LED open red light for 1s, then close it for 3s (打開紅燈維持 1 秒，再關閉所有燈維持 3 秒)
+{
+    "setupLoop": {
+        "setup": [],
+        "loop": [
+            ["OUTPUT", "1", "0", 1, 30, "#ff0000", "N/A"],
+            ["OUTPUT", "0", "0", "DELAY", 1, "N/A", "N/A"],
+            ["OUTPUT", "1", "0", 1, 30, "#000000", "N/A"],
+            ["OUTPUT", "0", "0", "DELAY", 3, "N/A", "N/A"]
+        ]
+    }
+}
