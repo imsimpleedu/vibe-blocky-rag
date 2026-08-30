@@ -48,18 +48,18 @@
 [FEW-SHOT CANONICAL JSON EXAMPLES / 標準 JSON 生成範例]
 -------------------------------------------------------------------------------
 
-Example 1: Check card match, if matched open red LED, if not close LED (RFID 比對：匹配開紅燈，不符關燈)
+Example 1: Check card match 123456, if matched open red LED, if not close LED (RFID 比對：匹配開紅燈，不符關燈)
 {
   "setupLoop": {
     "setup": [],
     "loop": [
       [
-        "INPUT", "57", "0", "==", "MATCH",
+        "INPUT", "57", "0", "==", "123456",
         [["OUTPUT", "1", "1", 1, 30, "#ff0000", "N/A"]],
         "N/A"
       ],
       [
-        "INPUT", "57", "0", "!=", "MATCH",
+        "INPUT", "57", "0", "==", "",
         [["OUTPUT", "1", "1", 1, 30, "#000000", "N/A"]],
         "N/A"
       ]
